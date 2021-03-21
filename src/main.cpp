@@ -105,9 +105,9 @@ void opcontrol() {
 		iReverse = joystick.get_digital(DIGITAL_R2);
 
 		driveFrontLeft = leftX+rightY+rightX;
-		driveBackLeft = leftX-rightY-rightX;
+		driveBackLeft = leftX+rightY-rightX;
 		driveFrontRight = leftX-rightY+rightX;
-		driveBackRight = leftX+rightY-rightX;
+		driveBackRight = leftX-rightY-rightX;
 
 		if (out) {
 			uptakeHigh = 127;
