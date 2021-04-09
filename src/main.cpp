@@ -1,4 +1,6 @@
 #include "main.h"
+#include "api.h"
+#include "okapi/api.hpp"
 
 /**
  * A callback function for LLEMU's center button.
@@ -58,7 +60,82 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+
+void autonomous() {
+	//homerow auton??
+	using namespace okapi;
+//#17 is upper uptakes and #16 is lower uptakes
+	MotorGroup uptakesOut({-17, -16});
+	MotorGroup uptakesSpit({17, -16});
+
+	MotorGroup forwardIntake({8, -7, 12, -1, -2, 11});
+
+	MotorGroup xDriveStrafe({1, -11, -2, 12});
+	MotorGroup turnRight({1, 11, 2, 12});
+	MotorGroup turnLeft({-1, -11, -2, -12});
+
+//#8 is right intake and #7 is left intake
+	MotorGroup intakeIn({8, -7});
+	MotorGroup intakeOut({-8, 7});
+
+	//represents chassis for moving forward and backward for the meantime
+	std::shared_ptr<ChassisController> chassisFB = ChassisControllerBuilder()
+	.withMotors(12, -1, -2, 11)
+	// Green gearset, 3 in wheel diam, 11.5 in wheel track
+	.withDimensions(AbstractMotor::gearset::green, {{3_in, 11.5_in}, imev5GreenTPR})
+	.build();
+
+	//represents chassis for moving left and right for the meantime (strafing)
+	std::shared_ptr<ChassisController> chassisLR = ChassisControllerBuilder()
+	.withMotors(12, 1, -2, -11)
+	// Green gearset, 3 in wheel diam, 11.5 in wheel track
+	.withDimensions(AbstractMotor::gearset::green, {{3_in, 11.5_in}, imev5GreenTPR})
+	.build();
+
+	//flips out intakes
+
+	//launches ball.. finally figured out motor group :')
+
+	//uptakesOut.moveRelative(3000, 127);
+
+	/*
+	chassisLR->setMaxVelocity(70);
+	chassisFB->setMaxVelocity(70);
+	pros::delay(2000);
+	chassisLR->moveDistance(-5_in);
+	intakes.moveRelative(3000, 127);
+	pros::delay(100);
+	chassisFB->turnAngle(45_deg);
+	pros::delay(100);
+	chassisFB->moveDistance(12_in);
+	intakes.moveRelative(3000, -127);
+	uptakesOut.moveRelative(3000, 127);*/
+
+	//flipout theoretically
+	chassisLR->moveDistance(-6_in);
+	intakeOut.moveRelative(3000, 127);
+	pros::delay(3000);
+	turnRight.moveRelative(250, 100);
+	pros::delay(250);
+	//chassisFB->moveDistance(12_in);
+	forwardIntake.moveRelative(3000, 120);
+	pros::delay(1500);
+	uptakesOut.moveRelative(2750, 127);
+	pros::delay(1000);
+	chassisFB->moveDistance(-20_in);
+
+/*
+	chassisFB->setMaxVelocity(100);
+	chassisFB->moveDistance(2_m);
+	chassisLR->moveDistance(2_m);
+	chassisLR->moveDistance(-1_m);
+	chassisFB->turnAngle(90_deg);*/
+	/*
+	chassisFB->moveDistance(2_ft);
+	//chassisLR->moveDistance(2_ft);
+	chassisLR->moveDistance(2_ft);*/
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -111,11 +188,11 @@ void opcontrol() {
 
 		if (out) {
 			uptakeHigh = 127;
-			uptakeLow = 127;
+			uptakeLow = 90;
 		}
 		else if (spit) {
 			uptakeHigh = -127;
-			uptakeLow = 127;
+			uptakeLow = 90;
 		}
 		else {
 			uptakeHigh = 0;
