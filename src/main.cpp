@@ -69,6 +69,7 @@ void autonomous() {
 	MotorGroup uptakesSpit({17, -16});
 
 	MotorGroup forwardIntake({8, -7, 12, -1, -2, 11});
+	MotorGroup specialBoi({8, -7, 12, -1, -2, 11, -16});
 
 	MotorGroup xDriveStrafe({1, -11, -2, 12});
 	MotorGroup turnRight({1, 11, 2, 12});
@@ -111,18 +112,41 @@ void autonomous() {
 	intakes.moveRelative(3000, -127);
 	uptakesOut.moveRelative(3000, 127);*/
 
-	//flipout theoretically
+	//
+	chassisLR->setMaxVelocity(100);
+	chassisFB->setMaxVelocity(100);
 	chassisLR->moveDistance(-6_in);
-	intakeOut.moveRelative(3000, 127);
-	pros::delay(3000);
-	turnRight.moveRelative(250, 100);
-	pros::delay(250);
+	intakeOut.moveRelative(2000, 127);
+	pros::delay(1750);
+	turnRight.moveRelative(500, 100);
+	pros::delay(300);
 	//chassisFB->moveDistance(12_in);
-	forwardIntake.moveRelative(3000, 120);
-	pros::delay(1500);
+	forwardIntake.moveRelative(1500, 120);
+	pros::delay(1250);
 	uptakesOut.moveRelative(2750, 127);
 	pros::delay(1000);
-	chassisFB->moveDistance(-20_in);
+	chassisFB->moveDistance(-10_in);
+
+	//second part: corner and middle edge goal
+	/*turnLeft.moveRelative(3450, 90); pros::delay(2000);
+	chassisFB->moveDistance(30_in);
+	turnLeft.moveRelative(2500, 90); pros::delay(1250);
+	specialBoi.moveRelative(3000,120); pros::delay(2500);
+	uptakesOut.moveRelative(3000, 127);*/
+/*
+	turnLeft.moveRelative(500, 100); pros::delay(250);
+
+	chassisFB->setMaxVelocity(127);
+	chassisFB->moveDistance(-50_in);
+	turnRight.moveRelative(1250, 100); pros::delay(1250);
+	specialBoi.moveRelative(600, 127); pros::delay(750);
+	chassisFB->moveDistance(9_in);
+	uptakesOut.moveRelative(3000, 127); pros::delay(2000);
+	chassisFB->moveDistance(-10_in);*/
+
+
+
+
 
 /*
 	chassisFB->setMaxVelocity(100);
